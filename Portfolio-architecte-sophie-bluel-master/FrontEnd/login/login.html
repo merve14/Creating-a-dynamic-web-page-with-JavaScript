@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sophie Bluel - Architecte d'intérieur</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <header>
+        <a href="../index.html">
+            <h1>Sophie Bluel <span class="h1">Architecte d'inteérieur</span></h1>
+        </a>
+        <nav>
+            <ul>
+                <a href="../index.html">
+                    <li>projets</li>
+                </a>
+                <li>contact</li>
+                <a href="./login.html">
+                    <li class="login">login</li>
+                </a>
+                <li><img src="../assets/icons/instagram.png" alt="Instagram"></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div id="login-error-msg-holder">
+            <p id="login-error-msg">Nom d'utilisateur <span id="error-msg-second-line">et/ou mot de passe erroné</span>
+            </p>
+        </div>
+        <h2>Log In</h2>
+        <form action="" id="login" name="form">
+            <div class="formula">
+                <label for="email" id="label-email">E-mail</label><br>
+                <input type="email" id="email" name="email" required><br>
+                <label for="password" id="mot-de-passe">Mot de passe</label><br>
+                <input type="password" id="password" name="password" required><br>
+                <input type="submit" value="Se connecter" id="login-form-submit">
+                <p class="mdp-oublie">Mot de passe oublié</p>
+            </div>
+        </form>
+    </main>
+    <footer>
+        <p class="mentiion-legales">Mentions légales</p>
+    </footer>
+
+    <script src="./login.js"></script>
+</body>
+
+</html>
