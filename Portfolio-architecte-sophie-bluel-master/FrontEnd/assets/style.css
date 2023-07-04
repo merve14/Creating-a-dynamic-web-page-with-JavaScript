@@ -193,20 +193,20 @@ i.fa-regular.fa-pen-to-square {
 	overflow: auto;
 	background: #FFF;
 	width: 550px;
-    height: 481px;
+    height: 700px;
 	max-width: calc(100vw - 50px);
 	max-height: calc(100vh - 20px);
-	padding: 30px;
+	padding: 15px;
 	border-radius: 10px;
-
+	font-family: 'Work Sans' ;
 }
 #title-modal{
-	color: #000;
-text-align: center;
-font-size: 26px;
-font-family: Work Sans;
-padding-top: 37px;
-  }
+		color: #000;
+	text-align: center;
+	font-size: 26px;
+	font-family: Work Sans;
+	padding-top: 37px;
+}
   .titleX {
     display: flex;
     flex-direction: row;
@@ -214,7 +214,7 @@ padding-top: 37px;
     justify-content: center;
     align-items: flex-start;
 	margin-left: 184px;
-	margin-bottom: 271px;
+	margin-bottom: 12px;
 }
 .close {
 	color: #000;
@@ -226,17 +226,56 @@ padding-top: 37px;
 	background-color: transparent;
 	margin-left: 163px;
   }
+  .travaux {
+	display: grid;
+    grid-template-columns: repeat(5,1fr);
+    gap: 10px;
+	padding: 25px 44px;
+}
+
+.modal-image{
+	width: 100%;
+    padding: 2px 2px;
+}
+.figure-modal{
+	position: relative;
+}
+i.fa-solid.fa-arrows-up-down-left-right {
+    position: absolute;
+	border-radius: 3px;
+	color: white;
+    background: black;
+    padding: 2px;
+}
+
+
+i.fa-solid.fa-trash-can.fa-xs {
+	top: 10px;
+    right: 3px;
+    position: absolute;
+    background: black;
+    color: white;
+	text-align: center;
+    border-radius: 3px;
+	padding: 9px 4px;
+	cursor: pointer;
+}
+.modal-editer {
+    margin-bottom: 9px;
+	color: #000;
+	font-size: 12px;
+}
   .btn-add-work {
     display: flex;
     align-items: center;
     flex-direction: column;
+	cursor: pointer;
 }
 hr{
 	width: 420px;
-	height: 0;
+	margin-top: 13px;
 	height: 1px;
 	background: #B3B3B3;
-	border: 1px thin #B3B3B3;
 	margin-bottom: 30px;
 }
 button.ajouter-une-photo {
@@ -246,21 +285,146 @@ button.ajouter-une-photo {
     color: white;
     padding: 10px 49px;
     border: none;
+	cursor: pointer;
 }
 p.supprimer-la-galerie {
 	color: #D65353;
 text-align: center;
 font-size: 14px;
 font-family: Syne;
-margin-bottom: 30px;
-}
 
+}
+.modal2{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.012);
+}
+.titleX-et-fleche {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+	margin: 10px;
+}
+i.fa-solid.fa-arrow-left {
+    cursor: pointer;
+}
+.close2{
+		color: #000;
+		float: right;
+		font-size: 20px;
+		font-weight: bold;
+		cursor: pointer;
+		border: none;
+		background-color: transparent;
+}
+.place-ajout-photo{
+	border-radius: 3px;
+	background: #E8F1F6;
+	text-align: center;
+	display: flex;
+	margin: auto;
+	width: 70%;
+    height: 169px;
+	margin-top: 36px;
+	flex-direction: column;
+	align-content: center;
+	justify-content: center;
+	align-items: center;
+}
+i.fa-regular.fa-image {
+    font-size: xxx-large;
+    color: #B9C5CC;
+}
+button.\+photo {
+    border-radius: 50px;
+    background: #CBD6DC;
+    border: none;
+    padding: 10px 36px;
+    color: #306685;
+    text-align: center;
+    font-size: 14px;
+    margin: 15px;
+	font-weight: 500;
+}
+p.para-underbtn {
+    color: #444;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 400;
+}
+form.form-ajout-photo {
+    margin-top: 59px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 88px;
+}
+.custom-file-upload {
+    display: inline-block;
+    cursor: pointer;
+    margin-top: 13px;
+    padding: 10px 20px;
+    background-color: #f2f2f2;
+    border: none;
+    border-radius: 50px;
+    margin-bottom: 13px;
+    background: #CBD6DC;
+}
+label#titre {
+    color: #3D3D3D;
+    font-size: 14px;
+    font-weight: 500;
+}
+input#form-input-photo {
+    background: #FFF;
+    box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+    border: none;
+	width: 76%;
+    padding: 15px;
+    margin-top: 10px;
+    margin-bottom: 21px;
+}
+label#categorie {
+    color: #3D3D3D;
+    font-size: 14px;
+    font-weight: 500;
+	margin-bottom: 10px;
+}
+select#select-categorie {
+    background: #FFF;
+    box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+	padding: 15px;
+    width: 83%;
+    border: none;
+	margin-bottom: 47px;
+}
+option {
+    color: #444;
+font-size: 14px;
+font-weight: 400;
+}
+button.valider {
+    background: #A7A7A7;
+    border: none;
+    border-radius: 60px;
+	color: white;
+    padding: 10px 49px;
+	cursor: pointer;
+}
 .buttons {
     text-align: center;
 	margin-bottom: 60px;
     margin-top: 60px;
 	margin-left: 10px;
 }
+
 .btn{
 	background-color: transparent;
 	border: 1px solid #1D6154;
