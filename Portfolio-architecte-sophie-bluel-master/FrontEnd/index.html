@@ -81,30 +81,31 @@
 					</aside>
 					<aside id="modal2" class="modal2" style="display: none;">
 						<div class="modal-content">
-							<div class="titleX-et-fleche">
-								<i class="fa-solid fa-arrow-left"></i>
-								<p id="title-modal">Ajout photo</p>
-								<button class="close2">&times;</button>
-							</div>
-							<div class="place-ajout-photo">
-								<i class="fa-regular fa-image"></i>
-								<label for="photo-input" class="custom-file-upload">
-									<span>+ Ajouter photo</span>
-								</label>
-								<input type="file" id="photo-input" style="display: none"
-									accept="image/jpeg, image/png">
-								<p class="para-underbtn">jpg, png: 4MB max</p>
-							</div>
-							<form class="form-ajout-photo">
-								<label for="name" id="titre">Titre</label>
-								<input type="text" name="name" id="form-input-photo">
-								<label for="categorie" id="categorie">Catégorie</label>
-								<select name="catégorie-photo" id="select-categorie"></select>
+							<form class="form-ajout-photo" enctype="multipart/form-data">
+								<div class="titleX-et-fleche">
+									<i class="fa-solid fa-arrow-left"></i>
+									<p id="title-modal">Ajout photo</p>
+									<button class="close2">&times;</button>
+								</div>
+								<div class="place-ajout-photo">
+									<i class="fa-regular fa-image"></i>
+									<label for="image" class="custom-file-upload">
+										<span>+ Ajouter photo</span>
+									</label>
+									<input type="file" id="form-input-image" name="image"
+										accept="image/jpeg, image/png">
+									<p class="para-underbtn">jpg, png: 4MB max</p>
+								</div>
+								<label for="title" id="titre">Titre</label>
+								<input type="text" name="title" id="form-input-title">
+								<label for="category" id="categorie">Catégorie</label>
+								<select name="category" id="select-categorie">
+								</select>
+								<hr>
+								<div class="btn-add-work">
+									<button type="submit" class="valider">Valider</button>
+								</div>
 							</form>
-							<hr>
-							<div class="btn-add-work">
-								<button type="submit" class="valider">Valider</button>
-							</div>
 						</div>
 					</aside>
 				</div>

@@ -11,6 +11,7 @@ if (localStorage.getItem("token")) {
   token = localStorage.getItem("token");
   blackBar.style.display = "flex"; // Show the nav bar
   btnLogin.textContent = "logout";
+  btnLogin.setAttribute("id", "logout");
   buttons.parentNode.removeChild(buttons);
   btnModifier.style.marginTop = "5em";
   btnModifier.style.marginBottom = "7em";
@@ -96,21 +97,43 @@ const selectCategorie = document.getElementById("select-categorie");
 openModalLink.addEventListener("click", function (event) {
   event.preventDefault();
   modal.style.display = "inherit";
-  const displayWorks = (worksToDisplay) => {
+  const displayWorksInModal = (worksToDisplay) => {
     const travauxContainer = document.querySelector(".travaux");
     travauxContainer.innerHTML = worksToDisplay
       .map(
         (workToDisplay) => `
         <figure class="figure-modal">
   <img class="modal-image" id="${workToDisplay.id}" src="${workToDisplay.imageUrl}" />
-  <i class="fa-solid fa-trash-can fa-xs delete-icon"></i>
+  <i class="fa-solid fa-trash-can fa-xs delete-icon" data-id="${workToDisplay.id}"></i>
   <figcaption class="modal-editer">éditer</figcaption>
 </figure>
         `
       )
       .join("");
   };
-  displayWorks(works); // Display all works in the modal
+  displayWorksInModal(works); // Display all works in the modal
+  const btnDeleteIcons = document.querySelectorAll(".delete-icon");
+  btnDeleteIcons.forEach((btnDeleteIcon) => {
+    btnDeleteIcon.addEventListener("click", function (event) {
+      const id = parseInt(event.target.getAttribute("data-id"));
+      deleteWork(id);
+    });
+  });
+  const deleteWork = async (id) => {
+    const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(response);
+    if (response.status === 204) {
+      works = works.filter((work) => work.id !== id);
+      displayWorks(works);
+      displayWorksInModal(works);
+    }
+    //fetchWorks();
+  };
 });
 
 closeButton.addEventListener("click", function () {
@@ -144,23 +167,28 @@ openPhotoAdd.addEventListener("click", function (event) {
     }
   });
 });
-// Adding the categories with fetch
+
+// Adding the categories with fetch for the form
 const populateCategories = (categories) => {
-  selectCategorie.innerHTML = categories
-    .map(
-      (category) => `<option value="${category.name}">${category.name}</option>`
-    )
-    .join("");
+  selectCategorie.innerHTML =
+    `<option value=""></option>` + // To display an empty option by default
+    categories
+      .map(
+        (category) => `<option value="${category.id}">${category.name}</option>`
+      )
+      .join("");
 };
 
 // Preview the downloaded image
-const photoInput = document.getElementById("photo-input");
+const formInputImage = document.getElementById("form-input-image");
 const placeAjoutPhotoDiv = document.querySelector(".place-ajout-photo");
+const formInputTitle = document.getElementById("form-input-title");
+const validerButton = document.querySelector("button.valider");
 
-photoInput.addEventListener("change", function (event) {
+formInputImage.addEventListener("change", function (event) {
   const file = event.target.files[0]; // Get the selected file
 
-  // Remove all child elements from the place-ajout-photo div
+  // Remove all child elements from the place-ajout-photo div (otherwise it adds up)
   while (placeAjoutPhotoDiv.firstChild) {
     placeAjoutPhotoDiv.removeChild(placeAjoutPhotoDiv.firstChild);
   }
@@ -179,33 +207,76 @@ photoInput.addEventListener("change", function (event) {
   placeAjoutPhotoDiv.appendChild(previewImage);
 });
 
-//turn button green when the form is complete
-const formInputPhoto = document.getElementById("form-input-photo");
-const validerButton = document.querySelector(".valider");
-
-// Function to check the form completion status
+// Function to check the form completion status and turn the valider button green
 function checkFormCompletion() {
-  const isPhotoSelected = photoInput.files.length > 0;
-  const isTitleEntered = formInputPhoto.value.trim() !== "";
+  const isPhotoSelected = formInputImage.files.length > 0;
+  const isTitleEntered = formInputTitle.value.trim() !== "";
   const isCategorySelected = selectCategorie.value !== "";
 
   if (isPhotoSelected && isTitleEntered && isCategorySelected) {
-    validerButton.classList.add("completed");
     validerButton.style.background = "#1D6154";
-    photoInput.style.border = "none";
-    formInputPhoto.style.border = "none";
+    validerButton.style.cursor = "pointer";
+    formInputImage.style.border = "none";
+    formInputTitle.style.border = "none";
     selectCategorie.style.border = "none";
     placeAjoutPhotoDiv.style.border = "none";
   } else {
-    validerButton.classList.remove("completed");
-    photoInput.style.border = "1px solid red";
-    formInputPhoto.style.border = "1px solid red";
+    formInputImage.style.border = "1px solid red";
+    formInputTitle.style.border = "1px solid red";
     selectCategorie.style.border = "1px solid red";
     placeAjoutPhotoDiv.style.border = "1px solid red";
   }
 }
 
 // Event listeners for form elements
-photoInput.addEventListener("change", checkFormCompletion);
-formInputPhoto.addEventListener("input", checkFormCompletion);
+formInputImage.addEventListener("change", checkFormCompletion);
+formInputTitle.addEventListener("input", checkFormCompletion);
 selectCategorie.addEventListener("change", checkFormCompletion);
+
+// Logout session when clicked on logout button
+const btnLogout = document.querySelector("li#logout");
+
+function logout() {
+  // Clear the token from the local storage
+  localStorage.removeItem("token");
+  window.reload();
+}
+
+btnLogout.addEventListener("click", logout());
+console.log(btnLogout);
+
+function login() {
+  window.location.href = "./login/login.html";
+}
+btnLogin.addEventListener("click", login);
+
+// add a new work
+const form = document.querySelector(".form-ajout-photo");
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  // Create a FormData object
+  const formData = new FormData();
+
+  // Add the form data to the FormData object
+  formData.append("image", formInputImage.files[0]);
+  formData.append("title", formInputTitle.value);
+  formData.append("category", selectCategorie.value);
+
+  // console.log(formData.get("title"));
+  console.log(formData.get("category"));
+  console.log(formData.get("image"));
+  // Send the form data to the API
+  const response = await fetch("http://localhost:5678/api/works", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  const result = await response.json();
+  works.push(result);
+  displayWorks(works);
+});
