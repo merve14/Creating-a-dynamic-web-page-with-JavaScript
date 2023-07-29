@@ -37,7 +37,8 @@ form.addEventListener("submit", async (e) => {
       return response.json();
     })
     .then((data) => {
-      if (data.error) {
+      console.log(data);
+      if (!data.token) {
         email.style.border = "1px solid red";
         password.style.border = "1px solid red";
         loginErrorMsg.style.display = "block";

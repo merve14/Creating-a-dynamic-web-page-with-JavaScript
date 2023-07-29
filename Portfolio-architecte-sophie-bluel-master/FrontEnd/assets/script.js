@@ -19,7 +19,7 @@ if (localStorage.getItem("token")) {
   blackBar.style.display = "none"; // Hide the nav bar
   btnModifier.style.display = "none";
 }
-
+console.log("Stored Token:", localStorage.getItem("token"));
 //récupération des travaux
 const fetchWorks = async () => {
   await fetch("http://localhost:5678/api/works")
@@ -111,7 +111,10 @@ openModalLink.addEventListener("click", function (event) {
       )
       .join("");
   };
+
   displayWorksInModal(works); // Display all works in the modal
+
+  // Deleting a work using trash can icon
   const btnDeleteIcons = document.querySelectorAll(".delete-icon");
   btnDeleteIcons.forEach((btnDeleteIcon) => {
     btnDeleteIcon.addEventListener("click", function (event) {
@@ -179,6 +182,17 @@ const populateCategories = (categories) => {
       .join("");
 };
 
+// Add eventListeners to change input file default text
+const fileUploadText = document.getElementById("file-upload-text");
+const fileInput = document.getElementById("form-input-image");
+
+fileUploadText.addEventListener("click", function () {
+  fileInput.click();
+});
+fileInput.addEventListener("change", function () {
+  fileUploadText.textContent = "+ Ajouter photo";
+});
+
 // Preview the downloaded image
 const formInputImage = document.getElementById("form-input-image");
 const placeAjoutPhotoDiv = document.querySelector(".place-ajout-photo");
@@ -212,7 +226,7 @@ function checkFormCompletion() {
   const isPhotoSelected = formInputImage.files.length > 0;
   const isTitleEntered = formInputTitle.value.trim() !== "";
   const isCategorySelected = selectCategorie.value !== "";
-
+  const errorAdd = document.querySelector(".error-add");
   if (isPhotoSelected && isTitleEntered && isCategorySelected) {
     validerButton.style.background = "#1D6154";
     validerButton.style.cursor = "pointer";
@@ -220,11 +234,15 @@ function checkFormCompletion() {
     formInputTitle.style.border = "none";
     selectCategorie.style.border = "none";
     placeAjoutPhotoDiv.style.border = "none";
+    errorAdd.style.display = "none";
+    return true;
   } else {
     formInputImage.style.border = "1px solid red";
     formInputTitle.style.border = "1px solid red";
     selectCategorie.style.border = "1px solid red";
     placeAjoutPhotoDiv.style.border = "1px solid red";
+    errorAdd.style.display = "block";
+    return false;
   }
 }
 
@@ -235,15 +253,14 @@ selectCategorie.addEventListener("change", checkFormCompletion);
 
 // Logout session when clicked on logout button
 const btnLogout = document.querySelector("li#logout");
+console.log(btnLogout);
 
 function logout() {
   // Clear the token from the local storage
   localStorage.removeItem("token");
-  window.reload();
 }
 
-btnLogout.addEventListener("click", logout());
-console.log(btnLogout);
+btnLogout.addEventListener("click", logout);
 
 function login() {
   window.location.href = "./login/login.html";
@@ -255,7 +272,10 @@ const form = document.querySelector(".form-ajout-photo");
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
-
+  if (checkFormCompletion() === false) {
+    // stop the function
+    return;
+  }
   // Create a FormData object
   const formData = new FormData();
 
